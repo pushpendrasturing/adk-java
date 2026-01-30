@@ -63,7 +63,7 @@ final class SessionJsonConverter {
     metadataJson.put("interrupted", event.interrupted());
     metadataJson.put("branch", event.branch().orElse(null));
     metadataJson.put(
-        "long_running_tool_ids",
+        "longRunningToolIds",
         event.longRunningToolIds() != null ? event.longRunningToolIds().orElse(null) : null);
     if (event.groundingMetadata() != null) {
       metadataJson.put("grounding_metadata", event.groundingMetadata());

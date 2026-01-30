@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import javax.annotation.Nullable;
 
 /** The main class for the GenAI Agents runner. */
@@ -371,8 +372,11 @@ public class Runner {
 
     // Add state delta if provided
     if (stateDelta != null && !stateDelta.isEmpty()) {
-      eventBuilder.actions(
-          EventActions.builder().stateDelta(new ConcurrentHashMap<>(stateDelta)).build());
+      ConcurrentMap<String, Object> delta =
+          stateDelta instanceof ConcurrentMap
+              ? (ConcurrentMap<String, Object>) stateDelta
+              : new ConcurrentHashMap<>(stateDelta);
+      eventBuilder.actions(EventActions.builder().stateDelta(delta).build());
     }
 
     return this.sessionService.appendEvent(session, eventBuilder.build());
@@ -501,7 +505,7 @@ public class Runner {
                                             updatedSession ->
                                                 runAgentWithFreshSession(
                                                     session,
-                                                    updatedSession,
+                                                    session,
                                                     event,
                                                     invocationId,
                                                     runConfig,
@@ -610,10 +614,6 @@ public class Runner {
         if (runConfig.outputAudioTranscription() == null) {
           runConfigBuilder.setOutputAudioTranscription(AudioTranscriptionConfig.builder().build());
         }
-      }
-      // Need input transcription for agent transferring in live mode.
-      if (runConfig.inputAudioTranscription() == null) {
-        runConfigBuilder.setInputAudioTranscription(AudioTranscriptionConfig.builder().build());
       }
     }
     InvocationContext.Builder builder =
