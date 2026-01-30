@@ -533,3 +533,59 @@ Ranks use a 1–5 scale (higher is better): **EV**=Exercise Value, **Stealth**, 
 9. **B37** — Model cache keyed by regex pattern (cross-model bleed, subtle).
 10. **B38** — A2A history dedupe uses invocationId (protocol boundary + data loss).
 
+---
+
+## Instance split (Ins01–Ins05)
+Each instance has a balanced mix of bug categories, ordered by rank (EV desc → Stealth desc →
+Scorability desc).
+
+### Ins01
+- **B01** (correctness/state consistency) — 5/4/5  
+- **B10** (performance/correctness) — 5/4/5  
+- **B21** (security/policy bypass) — 5/4/5  
+- **B16** (concurrency/ordering) — 5/4/4  
+- **B02** (data integrity/concurrency) — 4/4/4  
+- **B04** (reliability/edge-case) — 4/4/3  
+- **B30** (API contract drift) — 4/3/4  
+- **B27** (time/precision) — 3/3/4  
+
+### Ins02
+- **B05** (correctness/quota enforcement) — 5/4/4  
+- **B19** (data integrity) — 5/4/4  
+- **B03** (correctness/routing) — 5/3/5  
+- **B25** (reliability/observability) — 4/5/3  
+- **B14** (correctness/ordering) — 4/4/3  
+- **B29** (time/precision) — 4/3/4  
+- **B34** (API contract drift) — 4/3/4  
+- **B15** (security workflow/correctness) — 4/3/4  
+
+### Ins03
+- **B09** (security/data integrity) — 5/5/4  
+- **B37** (caching/data integrity) — 5/4/4  
+- **B08** (correctness/routing) — 5/3/5  
+- **B17** (resource leak/concurrency) — 4/5/3  
+- **B26** (correctness/streaming) — 4/3/4  
+- **B33** (performance/data quality) — 3/4/3  
+- **B24** (API contract drift) — 3/4/3  
+- **B22** (input validation) — 3/3/4  
+
+### Ins04
+- **B12** (correctness/context loss) — 5/4/4  
+- **B06** (correctness/resumability) — 4/4/4  
+- **B28** (data integrity) — 4/4/4  
+- **B20** (correctness/streaming contract) — 4/4/3  
+- **B35** (API contract drift) — 4/3/4  
+- **B39** (correctness/ordering) — 4/3/4  
+- **B11** (correctness/error handling) — 4/3/4  
+- **B23** (state integrity) — 3/4/3  
+
+### Ins05
+- **B13** (correctness/branch isolation) — 4/4/4  
+- **B18** (correctness/resumability) — 4/4/4  
+- **B32** (data integrity/state propagation) — 4/4/4  
+- **B36** (correctness/error handling) — 4/3/4  
+- **B38** (data integrity/protocol boundary) — 4/3/4  
+- **B07** (correctness/control flow) — 4/3/4  
+- **B40** (API contract drift) — 4/2/5  
+- **B31** (data integrity) — 3/4/3  
+
