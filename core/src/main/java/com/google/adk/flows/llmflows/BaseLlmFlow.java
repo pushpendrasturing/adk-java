@@ -415,7 +415,7 @@ public abstract class BaseLlmFlow implements BaseFlow {
   }
 
   private Flowable<Event> run(InvocationContext invocationContext, int stepsCompleted) {
-    Flowable<Event> currentStepEvents = runOneStep(invocationContext).cache();
+    Flowable<Event> currentStepEvents = runOneStep(invocationContext);
     if (stepsCompleted + 1 >= maxSteps) {
       logger.debug("Ending flow execution because max steps reached.");
       return currentStepEvents;

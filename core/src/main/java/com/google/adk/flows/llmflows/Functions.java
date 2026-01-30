@@ -156,11 +156,11 @@ public final class Functions {
     Observable<Event> functionResponseEventsObservable;
     if (invocationContext.runConfig().toolExecutionMode() == ToolExecutionMode.SEQUENTIAL) {
       functionResponseEventsObservable =
-          Observable.fromIterable(functionCalls).concatMapMaybe(functionCallMapper);
-    } else {
-      functionResponseEventsObservable =
           Observable.fromIterable(functionCalls)
               .concatMapEager(call -> functionCallMapper.apply(call).toObservable());
+    } else {
+      functionResponseEventsObservable =
+          Observable.fromIterable(functionCalls).concatMapMaybe(functionCallMapper);
     }
     return functionResponseEventsObservable
         .toList()

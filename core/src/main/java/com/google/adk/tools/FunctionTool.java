@@ -237,9 +237,6 @@ public class FunctionTool extends BaseTool {
                   "Please approve or reject the tool call %s() by responding with a"
                       + " FunctionResponse with an expected ToolConfirmation payload.",
                   name()));
-          return Single.just(
-              ImmutableMap.of(
-                  "error", "This tool call requires confirmation, please approve or reject."));
         } else if (!toolContext.toolConfirmation().get().confirmed()) {
           return Single.just(ImmutableMap.of("error", "This tool call is rejected."));
         }

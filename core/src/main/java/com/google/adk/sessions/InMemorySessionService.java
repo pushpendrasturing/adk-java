@@ -147,8 +147,7 @@ public final class InMemorySessionService implements BaseSessionService {
     if (config.numRecentEvents().isEmpty() && config.afterTimestamp().isPresent()) {
       Instant threshold = config.afterTimestamp().get();
 
-      eventsInCopy.removeIf(
-          event -> getEventTimestampEpochSeconds(event) < threshold.getEpochSecond());
+      eventsInCopy.removeIf(event -> event.timestamp() < threshold.getEpochSecond());
     }
 
     // Merge state into the potentially filtered copy and return
