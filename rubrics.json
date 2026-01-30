@@ -1,0 +1,40 @@
+{
+  "upload_directory": "/tmp/files/",
+  "output_directory": "/tmp/outputs/",
+  "system_prompt": "You are an expert code reviewer. Analyze the provided codebase for bugs, security issues, and correctness problems. Provide actionable feedback. All files are located in /tmp/files.",
+  "task_prompt": "You are an expert code reviewer. Your task is to analyze the ADK Java codebase. Identify subtle bugs, security regressions, data consistency issues, ordering problems, and time/precision flaws. Focus on issues detectable via static analysis. Write your findings to /tmp/outputs/review.md.",
+  "rubric": [
+    {
+      "criterion": "Identifies the stale session usage in core/src/main/java/com/google/adk/runner/Runner.java within runAsync(Session, Content, RunConfig, Map) where runAgentWithFreshSession is called with the original session instead of the freshly retrieved updated session, causing stateDelta updates to be ignored by the agent",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the stateDelta aliasing bug in core/src/main/java/com/google/adk/runner/Runner.java within appendNewMessageToSession where the EventActions stateDelta can reuse the caller-provided map without copying, allowing later mutations to retroactively change persisted session state",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the live audio transcription regression in core/src/main/java/com/google/adk/runner/Runner.java within newInvocationContextForLive where inputAudioTranscription is no longer set for live runs, breaking agent transfer and tool flows that rely on input transcripts",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the duplicate LLM call risk in core/src/main/java/com/google/adk/flows/llmflows/BaseLlmFlow.java in the run method where the step Flowable is no longer cached, causing the flow to re-execute (and re-call the model) when the events are re-consumed",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the tool execution ordering bug in core/src/main/java/com/google/adk/flows/llmflows/Functions.java within handleFunctionCalls where SEQUENTIAL mode now uses concatMapEager (parallelized execution), breaking tools that depend on order or shared state",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the confirmation bypass in core/src/main/java/com/google/adk/tools/FunctionTool.java within runAsync where a missing tool confirmation no longer blocks execution, allowing tools marked requireConfirmation to run without approval",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the timestamp precision bug in core/src/main/java/com/google/adk/sessions/InMemorySessionService.java within getSession where afterTimestamp filtering compares event.timestamp() (milliseconds) directly to Instant.getEpochSecond(), causing incorrect event filtering",
+      "weight": 1
+    },
+    {
+      "criterion": "Identifies the API contract drift in core/src/main/java/com/google/adk/sessions/SessionJsonConverter.java within convertEventToJson where the long running tool IDs key is emitted as longRunningToolIds instead of long_running_tool_ids, losing data on deserialize",
+      "weight": 1
+    }
+  ]
+}
